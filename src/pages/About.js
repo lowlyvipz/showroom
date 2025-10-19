@@ -45,14 +45,14 @@ function About(props) {
             dan masih terus di develop sampai saat ini. <br />
             Jika kalian ingin mendukung perkembangan project ini untuk masalah
             server dan lainnya <br />
-            kalian bisa donasi di link saweria berikut{" "}
+            kalian bisa donasi di link berikut{" "}
             <a
-              href="https://saweria.co/JKT48Showroom48"
+              href="https://tako.id/JKT48_Showroom"
               rel="noreferrer"
               target="_blank"
               onClick={() => activityTrack("About Link", "Donation Link Click")}
             >
-              https://saweria.co/JKT48Showroom48
+              https://tako.id/JKT48_Showroom
             </a>
           </p>
           <p>Social Media :</p>

@@ -23,7 +23,7 @@ const SupportProject = () => {
   }, []);
 
   const handleDonateClick = () => {
-    window.open("https://saweria.co/JKT48Showroom48");
+    window.open("https://tako.id/JKT48_Showroom");
     activityLog({
       logName: "Donate",
       description: "Donate saweria button click",
@@ -54,12 +54,12 @@ const SupportProject = () => {
             <Button
               className="mb-3"
               onClick={handleDonateClick}
-              style={{ backgroundColor: "#E49C20", border: "none" }}
+              color="info"
             >
               <div className="d-flex align-items-center py-1">
                 <FaDonate size={26} className="mr-2" />
                 <span style={{ fontSize: 18, fontWeight: 600 }}>
-                  Donate via saweria
+                  Donate via Tako
                 </span>
               </div>
             </Button>

@@ -45,3 +45,7 @@ https://www.jkt48showroom.com/
 
 https://github.com/ikhbaldwiyan/jkt48-showroom-api (API for room list, profile, total-rank, etc)
 https://github.com/AldyRevigustian/Showroom-api (API for authentication login, register, comment, send gift, etc)
+
+## Support Project
+You can support this project by donate via Tako here:
+https://tako.id/JKT48_Showroom
