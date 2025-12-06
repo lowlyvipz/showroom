@@ -29,7 +29,6 @@ const Android = () => {
 
   return (
     <MainLayout title="Download APK">
-      <ModalInfo />
       <div className="layout">
         <h4>DOWNLOAD JKT48 SHOWROOM APK</h4>
         <div className="py-1">
