@@ -18,6 +18,8 @@ import Podium from "components/Podium";
 import MenuIDN from "./components/MenuIDN";
 import { isDesktop } from "react-device-detect";
 import formatName from "utils/formatName";
+import { HiUsers } from "react-icons/hi";
+import Button from "elements/Button";
 
 const IDNLiveDetail = () => {
   let { id } = useParams();
@@ -96,18 +98,31 @@ const IDNLiveDetail = () => {
                 <Player
                   refreshKey={refreshKey}
                   url={`${process.env.REACT_APP_SERVICE_WORKER}?url=${live?.stream_url}`}
-                  views={formatNumber(live?.view_count ?? 0)}
                   idnUrl={`https://www.idn.app/${id}/live/${live.slug}`}
                 />
                 <div className="d-flex mb-3">
                   <h4 className="d-flex align-items-center mr-2">
-                    <b className="mr-2">
+                    <b className="mr-3">
                       {live?.user?.name !== "JKT48" ? formatName(live?.user?.name, true) : "JKT48"}
                     </b> |{" "}
                     <span style={{ fontSize: "14px", marginLeft: "8px" }}>
                       {" "}
                       {live?.title}
                     </span>
+                    <Button
+                      isPrimary
+                      style={{
+                        borderRadius: '6px',
+                        backgroundColor: '#007bff',
+                        borderColor: '#007bff',
+                        marginLeft: "8px"
+                      }}
+                    >
+                      <div className="d-flex align-items-center justify-content-center">
+                        <HiUsers size={16} className="mb-1 mt-1 mr-1" />
+                        <span style={{ fontSize: "14px" }}>{formatNumber(live?.view_count)}</span>
+                      </div>
+                    </Button>
                     <IoReload
                       onClick={handleRefresh}
                       className={`${isRefresh && "spin-animation"} ml-3`}

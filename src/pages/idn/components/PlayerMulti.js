@@ -28,7 +28,7 @@ export default function PlayerMulti({ url, number, idnUrl, refreshKey }) {
         controls
         url={url}
         width="100%"
-        height="width%"
+        height="auto"
         playing={true}
         muted={number != 1}
       />

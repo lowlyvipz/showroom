@@ -18,22 +18,6 @@ export default function Player({ url, views, idnUrl, refreshKey }) {
 
   return (
     <div className="idn-live player-wrapper mb-3">
-      <div className="logo">
-        <a onClick={trackEvent} href={idnUrl} target="_blank" rel="noreferrer">
-          <img
-            className="mt-1"
-            width={isMobile ? 60 : 90}
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/IDN_Live.svg/1024px-IDN_Live.svg.png"
-            alt="idn live"
-          />
-        </a>
-      </div>
-      <div className="views">
-        <div className="d-flex align-items-center">
-          <HiUsers size={20} className="mr-1" />
-          <b>{views}</b>
-        </div>
-      </div>
       <ReactPlayer
         key={refreshKey}
         className="react-player"
@@ -45,7 +29,7 @@ export default function Player({ url, views, idnUrl, refreshKey }) {
         controls
         url={url}
         width="100%"
-        height="100%"
+        height="750px"
         playing={true}
       />
     </div>
