@@ -102,10 +102,10 @@ const RecentLive = ({ isSearch }) => {
                   >
                     <div className="card-recent-live">
                       <img
-                        width="110"
+                        width="150"
                         height="auto"
                         className="recent-image"
-                        src="https://parijakartatimur.com/uploads/2023/06/dummy-user.jpg"
+                        src={member?.img?.replace("_m", "_square_m")}
                         alt={member?.name}
                       />
                       <div className="recent-info-wrapper">
