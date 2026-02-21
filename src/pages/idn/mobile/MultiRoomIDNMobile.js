@@ -8,6 +8,20 @@ import RoomPlayer from "./components/RoomPlayer";
 import { getLocalStorage } from "utils/helpers";
 import { ROOM_LIVE_IDN_DETAIL } from "utils/api/api";
 
+const RoomContainer = React.memo(({ number, data, setRoomOne, setRoomTwo, setRoomThree, setRoomFour }) => (
+  <div className="multi-spacing">
+    <RoomPlayer
+      key={number}
+      number={number}
+      data={data}
+      setRoomOne={setRoomOne}
+      setRoomTwo={setRoomTwo}
+      setRoomThree={setRoomThree}
+      setRoomFour={setRoomFour}
+    />
+  </div>
+));
+
 const MultiRoomIDN = () => {
   const [roomOne, setRoomOne] = useState({});
   const [roomTwo, setRoomTwo] = useState({});
@@ -17,12 +31,12 @@ const MultiRoomIDN = () => {
     localStorage.getItem("multi_room_idn") ?? "twoRoom"
   );
 
-  const settingsLayout = useCallback((type) => {
+  const settingsLayout = (type) => {
     if (type !== layout) {
       setLayout(type);
       localStorage.setItem("multi_room_idn", type);
     }
-  }, [layout]);
+  };
 
   useEffect(() => {
     const fetchRoomData = async (username, setRoom) => {
@@ -55,73 +69,32 @@ const MultiRoomIDN = () => {
     }
   }, []);
 
-  const RoomPlayerMemo = useMemo(() => {
-    return ({ number, data }) => (
-      <div className="multi-spacing">
-        <RoomPlayer
-          key={`${number}-${layout}`}
-          number={number}
-          data={data}
-          layout={layout}
-          setRoomOne={setRoomOne}
-          setRoomTwo={setRoomTwo}
-          setRoomThree={setRoomThree}
-          setRoomFour={setRoomFour}
-        />
+  const renderLayout = () => {
+    const commonProps = {
+      setRoomOne,
+      setRoomTwo,
+      setRoomThree,
+      setRoomFour,
+    };
+
+    return (
+      <div className="d-flex flex-wrap">
+        <RoomContainer number="1" data={roomOne} {...commonProps} />
+        <RoomContainer number="2" data={roomTwo} {...commonProps} />
+        {layout !== "twoRoom" && (
+          <RoomContainer number="3" data={roomThree} {...commonProps} />
+        )}
+        {layout === "fourRoom" && (
+          <RoomContainer number="4" data={roomFour} {...commonProps} />
+        )}
       </div>
     );
-  }, [layout]);
-
-  const layoutColumns = useMemo(() => {
-    switch (layout) {
-      case "twoRoom":
-        return (
-          <div className="multi-wrapper">
-            <RoomPlayerMemo number="1" data={roomOne} />
-            <RoomPlayerMemo number="2" data={roomTwo} />
-          </div>
-        );
-      case "threeRoom":
-        return (
-          <>
-            <div className="d-flex">
-              <RoomPlayerMemo number="1" data={roomOne} />
-              <RoomPlayerMemo number="2" data={roomTwo} />
-            </div>
-            <div className="d-flex">
-              <RoomPlayerMemo number="3" data={roomThree} />
-            </div>
-          </>
-        );
-      case "fourRoom":
-        return (
-          <>
-            <div className="d-flex">
-              <RoomPlayerMemo number="1" data={roomOne} />
-              <RoomPlayerMemo number="2" data={roomTwo} />
-            </div>
-            <div className="d-flex">
-              <RoomPlayerMemo number="3" data={roomThree} />
-              <RoomPlayerMemo number="4" data={roomFour} />
-            </div>
-          </>
-        );
-      default:
-        return null;
-    }
-  }, [
-    layout,
-    roomOne,
-    roomTwo,
-    roomThree,
-    roomFour,
-    RoomPlayerMemo
-  ]);
+  };
 
   return (
     <MainLayout title="Multi Room - IDN Live">
       <div className="mt-1 p-2">
-        {layoutColumns}
+        {renderLayout()}
         <RoomMulti
           isAndroid
           layout={layout}
