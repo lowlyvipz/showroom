@@ -90,7 +90,9 @@ const LIVE_NOTIF_BOT = `${BOT_API}/notification`;
 const MESSAGES_BOT = `${BOT_API}/message-bot`;
 
 // ROOM API
-const ROOM_LIST_API = ROOM;
+const ROOM_LIST_API = (category, search = "") => {
+  return `${API}/member?category=${category}&search=${search}`;
+};
 const ROOM_GEN_10 = `${ROOM}/academy`;
 const ROOM_LIVES_API = `${ROOM}/onlives`;
 const ROOM_TRAINEE_API = `${ROOM}/trainee`;

@@ -1,28 +1,26 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { ROOM_LIST_API, ROOM_GEN_10, ROOM_TRAINEE_API } from "utils/api/api";
+import { useEffect, useState } from "react";
 import Fade from "react-reveal/Fade";
+import { ROOM_LIST_API } from "utils/api/api";
 
+import { Schedule } from "components";
+import ServerErrorModal from "components/ServerErrorModal";
+import IDNLiveList from "pages/idn/IDNLiveList";
 import MainLayout from "pages/layout/MainLayout";
-import { AlertInfo, Schedule } from "components";
+import {
+  PremiumLive,
+  RoomAcademy,
+  RoomList,
+  RoomLive,
+  RoomUpcoming,
+  SearchAndFilter,
+} from "parts";
+import RecentLive from "parts/RecentLive";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getRoomListRegular,
-  getRoomListAcademy,
-  getRoomListTrainee,
+  getRoomListTrainee
 } from "redux/actions/rooms";
-import {
-  RoomList,
-  RoomLive,
-  RoomAcademy,
-  RoomUpcoming,
-  PremiumLive,
-  SearchAndFilter,
-} from "parts";
-import ServerErrorModal from "components/ServerErrorModal";
-import ModalInfo from "parts/ModalInfo";
-import RecentLive from "parts/RecentLive";
-import IDNLiveList from "pages/idn/IDNLiveList";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -33,37 +31,28 @@ function Home(props) {
   const [isServerError, setIsServerError] = useState(false);
 
   const memberRegular = useSelector((state) => state.roomRegular.data);
-  const memberGen10 = useSelector((state) => state.roomAcademy.data);
   const roomTrainee = useSelector((state) => state.roomTrainee.data);
   const dispatch = useDispatch();
 
-  const roomRegular = [...memberRegular, ...memberGen10];
+  const roomRegular = [...memberRegular];
 
   useEffect(() => {
     async function getRoomList() {
       try {
-        const room = await axios.get(ROOM_LIST_API);
-        dispatch(getRoomListRegular(room.data));
+        const room = await axios.get(ROOM_LIST_API("regular"));
+        dispatch(getRoomListRegular(room.data.data));
       } catch (error) {
-        // setIsServerError(true);
+        console.log(error)
       }
     }
     getRoomList();
-    window.document.title = "JKT48 SHOWROOM";
   }, []);
 
-  useEffect(() => {
-    async function getRoomAcademy() {
-      const room = await axios.get(ROOM_GEN_10);
-      dispatch(getRoomListAcademy(room.data));
-    }
-    getRoomAcademy();
-  }, []);
 
   useEffect(() => {
     async function getRoomTrainee() {
-      const room = await axios.get(ROOM_TRAINEE_API);
-      dispatch(getRoomListTrainee(room.data));
+      const room = await axios.get(ROOM_LIST_API("trainee"));
+      dispatch(getRoomListTrainee(room.data.data));
     }
     getRoomTrainee();
   }, []);
@@ -75,27 +64,20 @@ function Home(props) {
   const filtered = !search
     ? roomRegular
     : roomRegular.filter((room) =>
-        room.name
-          ? room.name.toLowerCase().includes(search.toLowerCase())
-          : room.room_name.toLowerCase().includes(search.toLowerCase())
-      );
-
-  const filteredGen10 = !search
-    ? memberGen10
-    : memberGen10.filter((room) =>
-        room.room_url_key.toLowerCase().includes(search.toLowerCase())
-      );
+      room.name
+        ? room.name.toLowerCase().includes(search.toLowerCase())
+        : room.room_name.toLowerCase().includes(search.toLowerCase())
+    );
 
   const filteredTrainee = !search
     ? roomTrainee
     : roomTrainee.filter((room) =>
-        room.room_url_key.toLowerCase().includes(search.toLowerCase())
-      );
+      room.room_url_key.toLowerCase().includes(search.toLowerCase())
+    );
 
   return (
     <MainLayout {...props}>
       <div className="layout my-0 mb-4">
-        {/* <ModalInfo /> */}
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
@@ -124,23 +106,9 @@ function Home(props) {
                     room={filtered}
                     theme={props.theme}
                   />
-                  {/* <RoomAcademy
-                    title="Room Trainee"
-                    isSearchRegular={filtered}
-                    isSearch={search}
-                    room={filteredTrainee}
-                    theme={props.theme}
-                  /> */}
                 </div>
               )}
             </>
-          ) : isAcademy ? (
-            <RoomAcademy
-              title="Room Gen 10"
-              isSearch={search}
-              room={filteredGen10}
-              theme={props.theme}
-            />
           ) : isRegular ? (
             <RoomAcademy
               title="Room Trainee"

@@ -78,16 +78,14 @@ const RecentLive = ({ isSearch }) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.8 }}
               onClick={() => handleScroll(-100)}
-              className={`arrow-button left ${
-                scrollPosition === 0 ? "d-none" : ""
-              }`}
+              className={`arrow-button left ${scrollPosition === 0 ? "d-none" : ""
+                }`}
             >
               <BiChevronLeft
                 size={70}
                 color="white"
-                className={`arrow-button left ${
-                  scrollPosition === 0 ? "d-none" : ""
-                }`}
+                className={`arrow-button left ${scrollPosition === 0 ? "d-none" : ""
+                  }`}
               />
             </motion.div>
           )}
@@ -107,7 +105,7 @@ const RecentLive = ({ isSearch }) => {
                         width="110"
                         height="auto"
                         className="recent-image"
-                        src={member?.img_alt}
+                        src="https://parijakartatimur.com/uploads/2023/06/dummy-user.jpg"
                         alt={member?.name}
                       />
                       <div className="recent-info-wrapper">
@@ -181,25 +179,23 @@ const RecentLive = ({ isSearch }) => {
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.8 }}
-            className={`arrow-button right ${
-              scrollPosition >=
+            className={`arrow-button right ${scrollPosition >=
               containerRef.current?.scrollWidth -
-                containerRef.current?.clientWidth
-                ? "d-none"
-                : ""
-            }`}
+              containerRef.current?.clientWidth
+              ? "d-none"
+              : ""
+              }`}
             onClick={() => handleScroll(300)}
           >
             <BiChevronRight
               size={70}
               color="white"
-              className={`arrow-button right ${
-                scrollPosition >=
+              className={`arrow-button right ${scrollPosition >=
                 containerRef.current?.scrollWidth -
-                  containerRef.current?.clientWidth
-                  ? "d-none"
-                  : ""
-              }`}
+                containerRef.current?.clientWidth
+                ? "d-none"
+                : ""
+                }`}
               onClick={() => handleScroll(200)}
             />
           </motion.div>

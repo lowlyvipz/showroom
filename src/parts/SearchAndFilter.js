@@ -95,19 +95,6 @@ function SearchAndFilter({
 
       <Col md="4" sm="12" className="search-wrapper d-flex justify-content-end">
         <a
-          href={process.env.REACT_APP_DISCORD_LINK}
-          target="_blank"
-          rel="noreferrer"
-          onClick={() => socmedClick("Discord")}
-        >
-          <img
-            height={45}
-            className="rounded mx-3"
-            src="https://discordapp.com/api/guilds/1076511743909564506/widget.png?style=banner2"
-            alt="Discord"
-          />
-        </a>
-        <a
           href="https://twitter.com/JKT48_SHOWROOM"
           target="_blank"
           rel="noreferrer"
