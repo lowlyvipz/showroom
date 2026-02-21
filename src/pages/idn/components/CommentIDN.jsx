@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Card } from "reactstrap";
-import { getSession } from "utils/getSession";
+import React, { useEffect, useState, useRef } from 'react';
+import { Card } from 'reactstrap';
+import { getSession } from 'utils/getSession';
 
 const CommentIDN = ({ chatId, slug, username }) => {
   const [messages, setMessages] = useState([]);
@@ -8,8 +8,11 @@ const CommentIDN = ({ chatId, slug, username }) => {
   const wsRef = useRef(null);
 
   const generateRandomUsername = () => {
-    const uuid = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    const uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+      (
+        c ^
+        (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+      ).toString(16),
     );
     const timestamp = Date.now();
     return `idn-${uuid}-${timestamp}`;
@@ -19,7 +22,6 @@ const CommentIDN = ({ chatId, slug, username }) => {
 
   const setupWebSocket = async () => {
     try {
-
       const ws = new WebSocket(`wss://chat.idn.app`);
       wsRef.current = ws;
 
@@ -27,7 +29,7 @@ const CommentIDN = ({ chatId, slug, username }) => {
       let joined = false;
 
       ws.onopen = () => {
-        console.log("WebSocket connected");
+        console.log('WebSocket connected');
         setConnected(true);
         ws.send(`NICK ${nickname}`);
         ws.send(`USER ${nickname} 0 * null`);
@@ -36,37 +38,36 @@ const CommentIDN = ({ chatId, slug, username }) => {
       ws.onmessage = (event) => {
         const rawMessage = event.data;
 
-        if (rawMessage.startsWith("PING")) {
-          ws.send("PONG" + rawMessage.substring(4));
+        if (rawMessage.startsWith('PING')) {
+          ws.send('PONG' + rawMessage.substring(4));
           return;
         }
 
-        if (rawMessage.includes("001") && !registered) {
+        if (rawMessage.includes('001') && !registered) {
           registered = true;
-          console.log("Connected, joining channel...");
+          console.log('Connected, joining channel...');
           ws.send(`JOIN #${chatId}`);
           return;
         }
 
-        if (rawMessage.includes("JOIN") && !joined) {
+        if (rawMessage.includes('JOIN') && !joined) {
           joined = true;
-          console.log("Joined channel, waiting for messages...\n");
+          console.log('Joined channel, waiting for messages...\n');
           return;
         }
 
-        if (rawMessage.includes("PRIVMSG")) {
+        if (rawMessage.includes('PRIVMSG')) {
           const jsonMatch = rawMessage.match(/PRIVMSG #[^ ]+ :(.*)/);
           if (jsonMatch) {
             try {
               const data = JSON.parse(jsonMatch[1]);
-
 
               if (data?.chat) {
                 // Ensure that jsonData is mapped into the desired structure
                 const mappedMessage = {
                   user: data?.user,
                   comment: data?.chat?.message,
-                  timestamp: data.timestamp || Date.now()
+                  timestamp: data.timestamp || Date.now(),
                   // Add more fields if necessary based on your JSON structure
                 };
                 // Update the messages state with the mapped message
@@ -79,33 +80,33 @@ const CommentIDN = ({ chatId, slug, username }) => {
                 });
               }
             } catch (error) {
-              console.error("Failed to parse message:", error);
+              console.error('Failed to parse message:', error);
             }
           }
         }
       };
 
       ws.onclose = () => {
-        console.log("WebSocket disconnected");
+        console.log('WebSocket disconnected');
         setConnected(false);
         wsRef.current = null;
         // setTimeout(() => setupWebSocket(liveUrl), 5000);
       };
 
       ws.onerror = (error) => {
-        console.error("WebSocket error:", error);
+        console.error('WebSocket error:', error);
       };
     } catch (error) {
-      console.error("Failed to set up WebSocket:", error);
+      console.error('Failed to set up WebSocket:', error);
     }
   };
 
   useEffect(() => {
     if (username && slug) {
-      setMessages([])
+      setMessages([]);
       setupWebSocket();
     }
-    
+
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
@@ -118,42 +119,56 @@ const CommentIDN = ({ chatId, slug, username }) => {
       <Card
         className="p-0 mb-5"
         style={{
-          background: "linear-gradient(to bottom, #A0AEC0 0%, #4A5568 100%)",
-          borderRadius: "8px",
-          border: "none"
+          background: 'linear-gradient(to bottom, #A0AEC0 0%, #4A5568 100%)',
+          borderRadius: '8px',
+          border: 'none',
         }}
       >
         {messages?.length > 0 && (
           <div className="p-3 scroll">
             {messages?.slice(0, 60)?.map(
               (item, idx) =>
-                item?.comment?.length != "2" &&
-                item?.comment?.length != "1" && (
+                item?.comment?.length != '2' &&
+                item?.comment?.length != '1' && (
                   <div
                     key={idx}
-                    className="px-3 py-2"
+                    className="px-3 py-3"
                     style={{
-                      backgroundColor: "#343a40",
-                      borderRadius: "8px",
-                      marginBottom: "6px"
+                      display: 'flex',
+                      alignItems: 'center',
+                      backgroundColor: '#343a40',
+                      borderRadius: '8px',
+                      marginBottom: '8px',
+                      gap: '12px',
                     }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        color: item?.user?.color_code ?? "#24a2b7",
-                        fontSize: "18px",
-                        fontWeight: "600"
-                      }}
-                    >
-                      {item?.user?.name ?? item?.user?.username}
+                    <img
+                      className="rounded"
+                      width={50}
+                      height={50}
+                      src={item?.user?.avatar_url}
+                      alt={item?.user?.name}
+                    />
+                    <div className="d-flex flex-column justify-content-center">
+                      <div
+                        style={{
+                          color: item?.user?.color_code ?? '#24a2b7',
+                          fontSize: '17px',
+                          fontWeight: '700',
+                          lineHeight: '1.2',
+                        }}
+                      >
+                        {item?.user?.name ?? item?.user?.username}
+                      </div>
+                      <p
+                        className="text-white mb-0"
+                        style={{ fontSize: '14px', marginTop: '2px' }}
+                      >
+                        {item.comment}
+                      </p>
                     </div>
-                    <p className="text-white" style={{ marginTop: "4px" }}>
-                      {item.comment}
-                    </p>
                   </div>
-                )
+                ),
             )}
           </div>
         )}

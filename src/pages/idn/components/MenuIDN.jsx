@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { isMobile } from "react-device-detect";
 import { AiFillTrophy } from "react-icons/ai";
-import { FaThList } from "react-icons/fa";
+import { FaBroadcastTower, FaThList } from "react-icons/fa";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 import CommentIDN from "./CommentIDN";
 import RoomListIDN from "./RoomListIDN";
 import Podium from "components/Podium";
+import { MdSmartDisplay } from "react-icons/md";
 
 const MenuIDN = ({ id, live }) => {
   const [activeTab, setActiveTab] = useState("2");
@@ -37,11 +38,12 @@ const MenuIDN = ({ id, live }) => {
               padding: "6px 14px",
               marginLeft: "0px",
               backgroundColor: activeTab === "1" ? "#3182CE" : "#4A5568",
-              border: activeTab === "1" ? "2px solid #63B3ED" : "none",
+              border: "none",
               borderRadius: "8px",
               margin: "0 4px",
               fontWeight: "bold",
-              textAlign: "center"
+              textAlign: "center",
+              fontSize: 14,
             }}
           >
             <FaThList size={16} />
@@ -58,18 +60,19 @@ const MenuIDN = ({ id, live }) => {
               cursor: "pointer",
               padding: "6px 14px",
               backgroundColor: activeTab === "2" ? "#3182CE" : "#4A5568",
-              border: activeTab === "2" ? "2px solid #63B3ED" : "none",
+              border:"none",
               borderRadius: "8px",
               margin: "0 4px",
               fontWeight: "bold",
-              textAlign: "center"
+              textAlign: "center",
+              fontSize: 14,
             }}
           >
             <IoChatboxEllipses size={18} />
             Chat
           </NavLink>
         </NavItem>
-        {isMobile && (
+        {isMobile ? (
           <NavItem>
             <NavLink
               onClick={() => toggleTab("3")}
@@ -84,11 +87,38 @@ const MenuIDN = ({ id, live }) => {
                 borderRadius: "8px",
                 margin: "0 4px",
                 fontWeight: "bold",
-                textAlign: "center"
+                textAlign: "center",
+                fontSize: 14,
               }}
             >
               <AiFillTrophy size={18} />
               Podium
+            </NavLink>
+          </NavItem>
+        ) : (
+          <NavItem>
+            <NavLink
+              onClick={() => {
+                window.open(`https://idn.app/${live.user.username}/live/${live.slug}`, "_blank");
+              }}
+              style={{
+                display: "flex",
+                gap: 6,
+                alignItems: "center",
+                cursor: "pointer",
+                padding: "6px 14px",
+                backgroundColor: "transparent",
+                color: "white",
+                border: "1px solid #DC3545",
+                borderRadius: "8px",
+                margin: "0 4px",
+                fontWeight: "600",
+                fontSize: 14,
+                textAlign: "center"
+              }}
+            >
+              <MdSmartDisplay size={18} />
+              Watch In IDN Live
             </NavLink>
           </NavItem>
         )}
