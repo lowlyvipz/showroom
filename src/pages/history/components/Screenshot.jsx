@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Carousel,
   CarouselItem,
   CarouselControl,
   CarouselIndicators,
   CarouselCaption,
-} from "reactstrap";
+} from 'reactstrap';
 
 function Screenshot({ images, thumbnail }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -13,7 +13,10 @@ function Screenshot({ images, thumbnail }) {
 
   const items = images?.list?.map((item, idx) => {
     return {
-      src: `https://res.cloudinary.com/haymzm4wp/image/upload/${images?.folder}/${item}.jpg`,
+      src:
+        images.format === 'webp'
+          ? `https://img.crstlnz.my.id/${images?.folder}/${item}.${images.format}`
+          : `https://res.cloudinary.com/haymzm4wp/image/upload/${images?.folder}/${item}.jpg`,
       key: idx + 1,
     };
   });
@@ -51,7 +54,12 @@ function Screenshot({ images, thumbnail }) {
         onExited={() => setAnimating(false)}
         key={item.src}
       >
-        <img className="rounded" width="100%" src={item.src} alt={item.altText} />
+        <img
+          className="rounded"
+          width="100%"
+          src={item.src}
+          alt={item.altText}
+        />
         <CarouselCaption
           captionText={item.caption}
           captionHeader={item.caption}

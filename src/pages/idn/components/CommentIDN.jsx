@@ -113,10 +113,6 @@ const CommentIDN = ({ chatId, slug, username }) => {
     };
   }, [username]);
 
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
-
   return (
     <div>
       <Card
