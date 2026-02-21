@@ -309,7 +309,7 @@ function Live(props) {
                   )}
                 </>
               ))
-            ) : !url ? (
+            ) : url.length === 0 ? (
               <Profile
                 roomId={roomId}
                 setRoomId={setRoomId}

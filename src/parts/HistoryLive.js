@@ -41,9 +41,9 @@ const HistoryLive = ({ id }) => {
               <>
                 <div className="card-recent-live">
                   <img
-                    width={115}
+                    width={150}
                     className="recent-image"
-                    src={member?.img_alt}
+                    src={member?.img?.replace("_m", "_square_m")}
                     alt={member?.name}
                   />
                   <div className="recent-info-wrapper">
