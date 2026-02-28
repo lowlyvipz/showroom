@@ -109,7 +109,7 @@ function Live(props) {
   useEffect(() => {
     try {
       axios.get(LIVE_STREAM_URL(roomId, secretKey ?? cookies)).then((res) => {
-        const streamUrl = res.data;
+        const streamUrl = res.data.filter((item.type === "hls"));
         setUrl(streamUrl);
         !streamUrl && messages();
 
