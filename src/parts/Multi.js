@@ -55,7 +55,7 @@ export default function Multi({
 
   useEffect(() => {
     axios.get(LIVE_STREAM_URL(roomId)).then((res) => {
-      const streamUrl = res.data;
+      const streamUrl = res.data.filter((item) => item.type === "hls");
       setUrl(streamUrl);
     });
     !url && setMenu("room");
